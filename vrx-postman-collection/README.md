@@ -65,3 +65,9 @@ Para cobrir esses casos, foi adicionada a coleção complementar:
 - `postman/collections/vRx-Public-API-swagger-extra.postman_collection.json`
 
 Essa coleção contém os **111** endpoints/métodos faltantes (GET/POST/PUT/DELETE) para cobertura ampla do Swagger.
+
+Nessa coleção complementar, os requests já incluem parâmetros vindos do Swagger:
+
+- `query params` pré-carregados na aba **Params**;
+- `path params` (ex.: `{id}`) mapeados com placeholders;
+- `header params` adicionais quando aplicável.

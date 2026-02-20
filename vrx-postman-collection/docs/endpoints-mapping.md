@@ -81,3 +81,4 @@ Observações:
 
 - A coleção principal (baseada nos scripts Python) foi mantida como fonte “opiniada” para os fluxos usados no projeto.
 - A coleção complementar cobre os endpoints restantes do Swagger para exploração completa da API.
+- A coleção complementar foi regenerada com parâmetros explícitos por endpoint (query/path/header), para preencher a aba **Params** no Postman automaticamente.
