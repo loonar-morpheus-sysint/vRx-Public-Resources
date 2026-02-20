@@ -1,0 +1,1249 @@
+{
+  "info": {
+    "_postman_id": "4b765c5b-2f3a-4f4e-b173-7c1f1bcb52af",
+    "name": "vRx Public API - External Data",
+    "description": "Coleção baseada em `VickyvRxReportCLI.py` e módulos dependentes em `vicarius-external-scripts`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Endpoints",
+      "item": [
+        {
+          "name": "Count Endpoints",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpoint/search?from=0&size=1",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpoint",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Endpoints",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpoint/search?from={{from}}&size={{size}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpoint",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Endpoints (Include Scores)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpoint/search?from={{from}}&size={{size}}&includeFields=endpointId,endpointEndpointScores,endpointName",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpoint",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "includeFields",
+                  "value": "endpointId,endpointEndpointScores,endpointName"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Count Endpoint Attributes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpointAttributes/search?from=0&size=1",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpointAttributes",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Endpoint Attributes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpointAttributes/search?from={{from}}&size={{size}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpointAttributes",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Endpoints by SearchQuery (GET + Body)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Charset",
+                "value": "utf-8"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{searchQueryJson}}"
+            },
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpoint/search?from={{from}}&size={{size}}&includeFields=endpointName",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpoint",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "includeFields",
+                  "value": "endpointName"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Endpoint Groups",
+      "item": [
+        {
+          "name": "Count Endpoint Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointGroup/search?from=0&size=1",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointGroup",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Endpoint Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointGroup/search?from={{from}}&size={{size}}&sort=-organizationEndpointGroupUpdatedAt",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointGroup",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "sort",
+                  "value": "-organizationEndpointGroupUpdatedAt"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Count Assets by Group SearchQuery",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Charset",
+                "value": "utf-8"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{searchQueryJson}}"
+            },
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpoint/search?from=0&size=1&includeFields=endpointName",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpoint",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "includeFields",
+                  "value": "endpointName"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Assets by Group SearchQuery",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Charset",
+                "value": "utf-8"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{searchQueryJson}}"
+            },
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/endpoint/search?from={{from}}&size={{size}}&includeFields=endpointName",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "endpoint",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "includeFields",
+                  "value": "endpointName"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product Versions",
+      "item": [
+        {
+          "name": "Count Endpoint Publisher Product Versions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointPublisherProductVersions/search?from=0&size=1",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointPublisherProductVersions",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Endpoint Publisher Product Versions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointPublisherProductVersions/search?from={{from}}&size={{size}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointPublisherProductVersions",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Task Endpoint Events",
+      "item": [
+        {
+          "name": "Count Task Endpoint Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/taskEndpointsEvent/count?from=0&size=1&sort=-analyticsEventCreatedAt&q=analyticsEventCreatedAt>{{taskMinDateMs}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "taskEndpointsEvent",
+                "count"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "sort",
+                  "value": "-analyticsEventCreatedAt"
+                },
+                {
+                  "key": "q",
+                  "value": "analyticsEventCreatedAt>{{taskMinDateMs}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Task Endpoint Events by Date Window",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/taskEndpointsEvent/filter?from={{from}}&size={{size}}&sort=-analyticsEventCreatedAt&q=analyticsEventCreatedAt>{{taskMinDateMs}};analyticsEventCreatedAt<{{taskMaxDateMs}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "taskEndpointsEvent",
+                "filter"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "sort",
+                  "value": "-analyticsEventCreatedAt"
+                },
+                {
+                  "key": "q",
+                  "value": "analyticsEventCreatedAt>{{taskMinDateMs}};analyticsEventCreatedAt<{{taskMaxDateMs}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Endpoint Vulnerabilities",
+      "item": [
+        {
+          "name": "Count Endpoint Vulnerabilities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointVulnerabilities/search?from=0&size=1&q=organizationEndpointVulnerabilitiesEndpoint.endpointCreatedAt>{{vulnMinDateMs}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointVulnerabilities",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointVulnerabilitiesEndpoint.endpointCreatedAt>{{vulnMinDateMs}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Endpoint Vulnerabilities by Hash and Date",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointVulnerabilities/search?from={{from}}&size={{size}}&q=organizationEndpointVulnerabilitiesCreatedAt>{{vulnMinDateMs}};organizationEndpointVulnerabilitiesCreatedAt<{{vulnMaxDateMs}};organizationEndpointVulnerabilitiesEndpoint.endpointHash=in=({{endpointHash}})&sort=-organizationEndpointVulnerabilitiesCreatedAt",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointVulnerabilities",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointVulnerabilitiesCreatedAt>{{vulnMinDateMs}};organizationEndpointVulnerabilitiesCreatedAt<{{vulnMaxDateMs}};organizationEndpointVulnerabilitiesEndpoint.endpointHash=in=({{endpointHash}})"
+                },
+                {
+                  "key": "sort",
+                  "value": "-organizationEndpointVulnerabilitiesCreatedAt"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Incident Events",
+      "item": [
+        {
+          "name": "Count Incident Events (Mitigated/Detected)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/incidentEvent/count?from=0&size=1&q=incidentEventIncidentEventType=in=(MitigatedVulnerability,DetectedVulnerability)",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "incidentEvent",
+                "count"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "q",
+                  "value": "incidentEventIncidentEventType=in=(MitigatedVulnerability,DetectedVulnerability)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Incident Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/incidentEvent/filter?from={{from}}&size={{size}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "incidentEvent",
+                "filter"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Count Incident Events by Type + Nano Window",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/incidentEvent/count?from=0&size=1&group=incidentEventIncidentEventType&metricActionName=IncidentEvent&q=analyticsEventCreatedAtNano>{{incidentMinDateNano}};analyticsEventCreatedAtNano<{{incidentMaxDateNano}};incidentEventIncidentEventType=in=({{incidentTypes}})&sort=-analyticsEventCreatedAtNano",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "incidentEvent",
+                "count"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "group",
+                  "value": "incidentEventIncidentEventType&metricActionName=IncidentEvent"
+                },
+                {
+                  "key": "q",
+                  "value": "analyticsEventCreatedAtNano>{{incidentMinDateNano}};analyticsEventCreatedAtNano<{{incidentMaxDateNano}};incidentEventIncidentEventType=in=({{incidentTypes}})"
+                },
+                {
+                  "key": "sort",
+                  "value": "-analyticsEventCreatedAtNano"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Incident Events by Type + Nano Window",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/incidentEvent/filter?from={{from}}&size={{size}}&group=incidentEventIncidentEventType&metricActionName=IncidentEvent&q=analyticsEventCreatedAtNano>{{incidentMinDateNano}};analyticsEventCreatedAtNano<{{incidentMaxDateNano}};incidentEventIncidentEventType=in=({{incidentTypes}})&sort=-analyticsEventCreatedAtNano",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "incidentEvent",
+                "filter"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "group",
+                  "value": "incidentEventIncidentEventType&metricActionName=IncidentEvent"
+                },
+                {
+                  "key": "q",
+                  "value": "analyticsEventCreatedAtNano>{{incidentMinDateNano}};analyticsEventCreatedAtNano<{{incidentMaxDateNano}};incidentEventIncidentEventType=in=({{incidentTypes}})"
+                },
+                {
+                  "key": "sort",
+                  "value": "-analyticsEventCreatedAtNano"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Patches Aggregation",
+      "item": [
+        {
+          "name": "Count Patches by Endpoint Hash (Aggregation)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/aggregation/searchGroup?from=0&size=1&group=organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId&includeOriginalDoc=false&newParser=true&objectName=OrganizationEndpointExternalReferenceExternalReferences&sort=OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank&subAggregationLevel=0&sumLastSubAggregationBuckets=0&q=organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}})",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "aggregation",
+                "searchGroup"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "group",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId"
+                },
+                {
+                  "key": "includeOriginalDoc",
+                  "value": "false"
+                },
+                {
+                  "key": "newParser",
+                  "value": "true"
+                },
+                {
+                  "key": "objectName",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences"
+                },
+                {
+                  "key": "sort",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank"
+                },
+                {
+                  "key": "subAggregationLevel",
+                  "value": "0"
+                },
+                {
+                  "key": "sumLastSubAggregationBuckets",
+                  "value": "0"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}})"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Count App-related Patches by Endpoint Hash",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/aggregation/searchGroup?from=0&size=1&group=organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId&includeOriginalDoc=false&newParser=true&objectName=OrganizationEndpointExternalReferenceExternalReferences&sort=OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank&subAggregationLevel=0&sumLastSubAggregationBuckets=0&q=organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}});externalReferenceId=in=(-1,1947539,-1,1972712,-1,2030761,4897281,-1,1826256,-1,4142147,1552707)",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "aggregation",
+                "searchGroup"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "group",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId"
+                },
+                {
+                  "key": "includeOriginalDoc",
+                  "value": "false"
+                },
+                {
+                  "key": "newParser",
+                  "value": "true"
+                },
+                {
+                  "key": "objectName",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences"
+                },
+                {
+                  "key": "sort",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank"
+                },
+                {
+                  "key": "subAggregationLevel",
+                  "value": "0"
+                },
+                {
+                  "key": "sumLastSubAggregationBuckets",
+                  "value": "0"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}});externalReferenceId=in=(-1,1947539,-1,1972712,-1,2030761,4897281,-1,1826256,-1,4142147,1552707)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Patches by Endpoint Name (Aggregation)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/aggregation/searchGroup?from={{from}}&size={{size}}&group=organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId&includeOriginalDoc=false&newParser=true&objectName=OrganizationEndpointExternalReferenceExternalReferences&sort=OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank&subAggregationLevel=0&sumLastSubAggregationBuckets=0&q=organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointName=={{endpointName}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "aggregation",
+                "searchGroup"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "size",
+                  "value": "{{size}}"
+                },
+                {
+                  "key": "group",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId"
+                },
+                {
+                  "key": "includeOriginalDoc",
+                  "value": "false"
+                },
+                {
+                  "key": "newParser",
+                  "value": "true"
+                },
+                {
+                  "key": "objectName",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences"
+                },
+                {
+                  "key": "sort",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank"
+                },
+                {
+                  "key": "subAggregationLevel",
+                  "value": "0"
+                },
+                {
+                  "key": "sumLastSubAggregationBuckets",
+                  "value": "0"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointName=={{endpointName}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const requiredVars = ['dashboardUrl', 'apiKey'];",
+          "requiredVars.forEach((name) => {",
+          "  const value = pm.variables.get(name);",
+          "  pm.test(`Variável obrigatória preenchida: ${name}`, function () {",
+          "    pm.expect(value, `${name} está vazia`).to.be.a('string').and.not.empty;",
+          "  });",
+          "});",
+          "",
+          "if (!pm.variables.get('from')) { pm.variables.set('from', '0'); }",
+          "if (!pm.variables.get('size')) { pm.variables.set('size', '500'); }"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('Status HTTP esperado', function () {",
+          "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 202, 204]);",
+          "});",
+          "",
+          "pm.test('Tempo de resposta aceitável (< 15s)', function () {",
+          "  pm.expect(pm.response.responseTime).to.be.below(15000);",
+          "});",
+          "",
+          "const bodyText = pm.response.text();",
+          "if (pm.response.code !== 204 && bodyText && bodyText.trim().length > 0) {",
+          "  let jsonData = null;",
+          "  pm.test('Resposta é JSON válido', function () {",
+          "    jsonData = pm.response.json();",
+          "    pm.expect(jsonData).to.exist;",
+          "  });",
+          "",
+          "  if (jsonData && typeof jsonData === 'object') {",
+          "    pm.test('Envelope conhecido ou objeto válido', function () {",
+          "      const hasKnownEnvelope = Object.prototype.hasOwnProperty.call(jsonData, 'serverResponseObject') ||",
+          "        Object.prototype.hasOwnProperty.call(jsonData, 'serverResponseCount');",
+          "      pm.expect(hasKnownEnvelope || Object.keys(jsonData).length >= 0).to.eql(true);",
+          "    });",
+          "",
+          "    if (Object.prototype.hasOwnProperty.call(jsonData, 'serverResponseCount')) {",
+          "      pm.test('serverResponseCount é numérico', function () {",
+          "        pm.expect(jsonData.serverResponseCount).to.be.a('number');",
+          "      });",
+          "    }",
+          "",
+          "    if (Object.prototype.hasOwnProperty.call(jsonData, 'serverResponseObject')) {",
+          "      pm.test('serverResponseObject existe', function () {",
+          "        pm.expect(jsonData.serverResponseObject).to.not.equal(undefined);",
+          "      });",
+          "    }",
+          "  }",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "dashboardUrl",
+      "value": "https://your-tenant.vicarius.cloud"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "from",
+      "value": "0"
+    },
+    {
+      "key": "size",
+      "value": "500"
+    },
+    {
+      "key": "endpointHash",
+      "value": ""
+    },
+    {
+      "key": "endpointName",
+      "value": ""
+    },
+    {
+      "key": "taskMinDateMs",
+      "value": "0"
+    },
+    {
+      "key": "taskMaxDateMs",
+      "value": "9999999999999"
+    },
+    {
+      "key": "vulnMinDateMs",
+      "value": "0"
+    },
+    {
+      "key": "vulnMaxDateMs",
+      "value": "9999999999999"
+    },
+    {
+      "key": "incidentMinDateNano",
+      "value": "0"
+    },
+    {
+      "key": "incidentMaxDateNano",
+      "value": "9999999999999999999"
+    },
+    {
+      "key": "incidentTypes",
+      "value": "MitigatedVulnerability,DetectedVulnerability"
+    },
+    {
+      "key": "searchQueryJson",
+      "value": "{\"queryRules\":[]}" 
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "75f6af5e-98cd-4ec2-a4a2-df446302f04a",
+  "name": "vRx Globals",
+  "values": [
+    {
+      "key": "from",
+      "value": "0",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "size",
+      "value": "500",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "incidentTypes",
+      "value": "MitigatedVulnerability,DetectedVulnerability",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "searchQueryJson",
+      "value": "{\"queryRules\":[]}",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2026-02-20T00:00:00.000Z",
+  "_postman_exported_using": "GitHub Copilot"
+}
