@@ -2,6 +2,11 @@
 
 Coleção Postman completa baseada no fluxo real de `vicarius-external-scripts/VickyvRxReportCLI.py` e seus módulos dependentes.
 
+## Versão da API
+
+- **API version (Swagger `info.version`)**: `1`
+- **OpenAPI spec**: `3.0.1`
+
 ## Estrutura
 
 ```text
@@ -30,6 +35,10 @@ A coleção contém requests para todos os domínios usados no Python:
 - Incident Events (`incidentEvent/count` e `incidentEvent/filter`)
 - Patch Aggregation (`aggregation/searchGroup`)
 
+Para detalhes completos de mapeamento de endpoints e cobertura, consulte:
+
+- [`docs/endpoints-mapping.md`](./docs/endpoints-mapping.md)
+
 ## Como usar
 
 1. Importe a coleção em `postman/collections/vRx-Public-API.postman_collection.json`.
@@ -46,3 +55,13 @@ A coleção contém requests para todos os domínios usados no Python:
 - A coleção inclui scripts globais de automação:
     - **Pre-request**: valida `dashboardUrl` e `apiKey`, além de default para `from` e `size`.
     - **Tests**: valida status HTTP, tempo de resposta, JSON válido e envelope padrão (`serverResponseCount`/`serverResponseObject`) quando presente.
+
+## Seção separada: endpoints do Swagger não cobertos inicialmente
+
+Com base em `postman/swagger.json`, foram identificados endpoints que não estavam na coleção principal.
+
+Para cobrir esses casos, foi adicionada a coleção complementar:
+
+- `postman/collections/vRx-Public-API-swagger-extra.postman_collection.json`
+
+Essa coleção contém os **111** endpoints/métodos faltantes (GET/POST/PUT/DELETE) para cobertura ampla do Swagger.

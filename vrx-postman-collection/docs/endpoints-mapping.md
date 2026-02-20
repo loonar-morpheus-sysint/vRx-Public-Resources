@@ -12,6 +12,11 @@ Mapeamento real extraído de:
 
 Base path comum: `/vicarius-external-data-api`
 
+## Versão da API
+
+- **API version (Swagger `info.version`)**: `1`
+- **OpenAPI spec**: `3.0.1`
+
 ## Tabela de endpoints
 
 | Endpoint | Método | Uso no script | Parâmetros principais |
@@ -52,3 +57,27 @@ Base path comum: `/vicarius-external-data-api`
 - `vulnMinDateMs`, `vulnMaxDateMs`
 - `incidentMinDateNano`, `incidentMaxDateNano`, `incidentTypes`
 - `searchQueryJson`
+
+## Seção separada: cobertura complementar baseada no Swagger
+
+Após comparar `postman/swagger.json` com a coleção principal `postman/collections/vRx-Public-API.postman_collection.json`:
+
+- Métodos no Swagger: **121**
+- Métodos cobertos na coleção principal: **10**
+- Métodos não cobertos originalmente: **111**
+
+Esses 111 endpoints/métodos foram adicionados em uma coleção complementar:
+
+- `postman/collections/vRx-Public-API-swagger-extra.postman_collection.json`
+
+Distribuição dos endpoints adicionados:
+
+- `GET`: 41
+- `POST`: 50
+- `PUT`: 13
+- `DELETE`: 7
+
+Observações:
+
+- A coleção principal (baseada nos scripts Python) foi mantida como fonte “opiniada” para os fluxos usados no projeto.
+- A coleção complementar cobre os endpoints restantes do Swagger para exploração completa da API.
