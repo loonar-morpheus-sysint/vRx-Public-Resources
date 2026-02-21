@@ -7187,6 +7187,570 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Q Parameter Examples - 9 Casos",
+      "description": "Requests com o parâmetro q já preenchido, alinhados aos 9 casos do parameters-guide.md.",
+      "item": [
+        {
+          "name": "Caso 1 - POST taskEndpointsEvent/filter (janela de tempo)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/taskEndpointsEvent/filter?from=0&size=500&sort=-analyticsEventCreatedAt&q=analyticsEventCreatedAt>{{minDateMs}};analyticsEventCreatedAt<{{maxDateMs}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "taskEndpointsEvent",
+                "filter"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "500"
+                },
+                {
+                  "key": "sort",
+                  "value": "-analyticsEventCreatedAt"
+                },
+                {
+                  "key": "q",
+                  "value": "analyticsEventCreatedAt>{{minDateMs}};analyticsEventCreatedAt<{{maxDateMs}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 2 - POST taskEndpointsEvent/count (incremental)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/taskEndpointsEvent/count?from=0&size=1&sort=-analyticsEventCreatedAt&q=analyticsEventCreatedAt>{{minDateMs}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "taskEndpointsEvent",
+                "count"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "sort",
+                  "value": "-analyticsEventCreatedAt"
+                },
+                {
+                  "key": "q",
+                  "value": "analyticsEventCreatedAt>{{minDateMs}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 3 - POST organizationEndpointVulnerabilities/search (intervalo + hash)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointVulnerabilities/search?from=0&size=500&sort=-organizationEndpointVulnerabilitiesCreatedAt&q=organizationEndpointVulnerabilitiesCreatedAt>{{minDateMs}};organizationEndpointVulnerabilitiesCreatedAt<{{maxDateMs}};organizationEndpointVulnerabilitiesEndpoint.endpointHash=in=({{endpointHash}})",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointVulnerabilities",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "500"
+                },
+                {
+                  "key": "sort",
+                  "value": "-organizationEndpointVulnerabilitiesCreatedAt"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointVulnerabilitiesCreatedAt>{{minDateMs}};organizationEndpointVulnerabilitiesCreatedAt<{{maxDateMs}};organizationEndpointVulnerabilitiesEndpoint.endpointHash=in=({{endpointHash}})"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 4 - POST organizationEndpointVulnerabilities/search (count por endpointCreatedAt)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/organizationEndpointVulnerabilities/search?from=0&size=1&q=organizationEndpointVulnerabilitiesEndpoint.endpointCreatedAt>{{minDateMs}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "organizationEndpointVulnerabilities",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointVulnerabilitiesEndpoint.endpointCreatedAt>{{minDateMs}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 5 - POST incidentEvent/count (tipos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/incidentEvent/count?from=0&size=1&q=incidentEventIncidentEventType=in=(MitigatedVulnerability,DetectedVulnerability)",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "incidentEvent",
+                "count"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "q",
+                  "value": "incidentEventIncidentEventType=in=(MitigatedVulnerability,DetectedVulnerability)"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 6 - POST incidentEvent/filter (nano + tipo)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/incidentEvent/filter?from=0&size=500&group=incidentEventIncidentEventType&metricActionName=IncidentEvent&sort=-analyticsEventCreatedAtNano&q=analyticsEventCreatedAtNano>{{minDateNano}};analyticsEventCreatedAtNano<{{maxDateNano}};incidentEventIncidentEventType=in=(MitigatedVulnerability,DetectedVulnerability)",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "incidentEvent",
+                "filter"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "500"
+                },
+                {
+                  "key": "group",
+                  "value": "incidentEventIncidentEventType"
+                },
+                {
+                  "key": "metricActionName",
+                  "value": "IncidentEvent"
+                },
+                {
+                  "key": "sort",
+                  "value": "-analyticsEventCreatedAtNano"
+                },
+                {
+                  "key": "q",
+                  "value": "analyticsEventCreatedAtNano>{{minDateNano}};analyticsEventCreatedAtNano<{{maxDateNano}};incidentEventIncidentEventType=in=(MitigatedVulnerability,DetectedVulnerability)"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 7 - POST aggregation/searchGroup (patches por endpointHash)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/aggregation/searchGroup?from=0&size=1&includeOriginalDoc=false&newParser=true&objectName=OrganizationEndpointExternalReferenceExternalReferences&sort=OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank&subAggregationLevel=0&sumLastSubAggregationBuckets=0&group=organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId&q=organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}})",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "aggregation",
+                "searchGroup"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "includeOriginalDoc",
+                  "value": "false"
+                },
+                {
+                  "key": "newParser",
+                  "value": "true"
+                },
+                {
+                  "key": "objectName",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences"
+                },
+                {
+                  "key": "sort",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank"
+                },
+                {
+                  "key": "subAggregationLevel",
+                  "value": "0"
+                },
+                {
+                  "key": "sumLastSubAggregationBuckets",
+                  "value": "0"
+                },
+                {
+                  "key": "group",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}})"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 8 - POST aggregation/searchGroup (hash + externalReferenceId)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/aggregation/searchGroup?from=0&size=1&includeOriginalDoc=false&newParser=true&objectName=OrganizationEndpointExternalReferenceExternalReferences&sort=OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank&subAggregationLevel=0&sumLastSubAggregationBuckets=0&group=organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId&q=organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}});externalReferenceId=in=(-1,1947539,-1,1972712,-1,2030761,4897281,-1,1826256,-1,4142147,1552707)",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "aggregation",
+                "searchGroup"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "1"
+                },
+                {
+                  "key": "includeOriginalDoc",
+                  "value": "false"
+                },
+                {
+                  "key": "newParser",
+                  "value": "true"
+                },
+                {
+                  "key": "objectName",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences"
+                },
+                {
+                  "key": "sort",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank"
+                },
+                {
+                  "key": "subAggregationLevel",
+                  "value": "0"
+                },
+                {
+                  "key": "sumLastSubAggregationBuckets",
+                  "value": "0"
+                },
+                {
+                  "key": "group",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointHash=in=({{endpointHash}});externalReferenceId=in=(-1,1947539,-1,1972712,-1,2030761,4897281,-1,1826256,-1,4142147,1552707)"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Caso 9 - POST aggregation/searchGroup (endpointName exato)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Vicarius-Token",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{dashboardUrl}}/vicarius-external-data-api/aggregation/searchGroup?from=0&size=500&includeOriginalDoc=false&newParser=true&objectName=OrganizationEndpointExternalReferenceExternalReferences&sort=OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank&subAggregationLevel=0&sumLastSubAggregationBuckets=0&group=organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId&q=organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointName=={{endpointName}}",
+              "host": [
+                "{{dashboardUrl}}"
+              ],
+              "path": [
+                "vicarius-external-data-api",
+                "aggregation",
+                "searchGroup"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "500"
+                },
+                {
+                  "key": "includeOriginalDoc",
+                  "value": "false"
+                },
+                {
+                  "key": "newParser",
+                  "value": "true"
+                },
+                {
+                  "key": "objectName",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences"
+                },
+                {
+                  "key": "sort",
+                  "value": "OrganizationEndpointExternalReferenceExternalReferences.sensitivityLevelRank"
+                },
+                {
+                  "key": "subAggregationLevel",
+                  "value": "0"
+                },
+                {
+                  "key": "sumLastSubAggregationBuckets",
+                  "value": "0"
+                },
+                {
+                  "key": "group",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesPatches.patchName.raw;organizationEndpointExternalReferenceExternalReferencesPatches.patchDescription;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelName;organizationEndpointExternalReferenceExternalReferencesPatches.patchSensitivityLevel.sensitivityLevelRank;externalReferenceId;>;organizationEndpointExternalReferenceExternalReferencesPatches.patchId;externalReferenceSourceId;endpointId"
+                },
+                {
+                  "key": "q",
+                  "value": "organizationEndpointExternalReferenceExternalReferencesEndpoint.endpointName=={{endpointName}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]"
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -7218,6 +7782,30 @@
     {
       "key": "apiKey",
       "value": ""
+    },
+    {
+      "key": "minDateMs",
+      "value": "1700000000000"
+    },
+    {
+      "key": "maxDateMs",
+      "value": "1700500000000"
+    },
+    {
+      "key": "minDateNano",
+      "value": "1698796800000000000"
+    },
+    {
+      "key": "maxDateNano",
+      "value": "1698883200000000000"
+    },
+    {
+      "key": "endpointHash",
+      "value": "ABCD1234HASH"
+    },
+    {
+      "key": "endpointName",
+      "value": "HOST-APP-01"
     }
   ]
 }

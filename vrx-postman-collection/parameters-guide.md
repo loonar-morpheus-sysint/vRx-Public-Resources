@@ -435,6 +435,3 @@ Famílias de métodos da coleção onde `q` é aplicável (exemplos reais):
 - Em igualdade textual (`==`), teste com e sem caracteres especiais no nome.
 - Para filtros longos, confirme se o cliente está codificando URL corretamente.
 
----
-
-Se quiser, eu posso gerar uma **coleção Postman de exemplo** (com requests já preenchidos) para cada um dos 9 casos acima.
