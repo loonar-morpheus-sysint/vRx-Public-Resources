@@ -2458,6 +2458,25 @@ def normalize(
 
     patch_id = get_patch_id(event)
 
+    kev_raw = vulnerability.get("vulnerabilityCISARequiredAction")
+    kev_val = ""
+    if kev_raw:
+        vid = clean_text(
+            first_non_empty(
+                vulnerability.get("vulnerabilityId"),
+                event.get("incidentEventVulnerabilityId"),
+                event.get("vulnerabilityId"),
+            )
+        )
+        if not vid:
+            vid = "N/A"
+            
+        cves = [c.strip() for c in cve_name.replace(',', ' ').split() if c.strip()]
+        if cves:
+            kev_val = "|".join(f"[{vid}] {c}" for c in cves)
+        else:
+            kev_val = f"[{vid}] {cve_name}"
+
     return {
         "CVE Name": cve_name,
         "Product": product,
@@ -2472,6 +2491,7 @@ def normalize(
         "Vulnerability Summary": clean_text(
             vulnerability.get("vulnerabilitySummary", "")
         ),
+        "KEV": kev_val,
         "Endpoint": clean_text(endpoint_info.get("endpointName", "")),
         "Endpoint ID": clean_text(endpoint_info.get("endpointId", "")),
         "Operating System": operating_system,

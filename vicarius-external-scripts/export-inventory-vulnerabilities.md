@@ -8,7 +8,77 @@
 > Recomenda-se validar sua utilização com a Vicarius antes de adotá-lo de forma contínua.
 >
 > Este script é cedido no estado em que se encontra, sem garantias adicionais de funcionamento, aderência operacional ou adequação a um propósito específico. A decisão de executá-lo, bem como os riscos, impactos e validações decorrentes de seu uso, é de responsabilidade exclusiva do interessado.
-> 
+>
+> **Adicionada coluna com os códigos KEV caso existam**
+> A adição dessa coluna aumentou significativamente o tempo de execução. O tempo para conclusão da mesma janela temporal levou aproximadamente 20 minutos com tempo efetivo de uso de CPU de 01 minuto, ou seja, 19 minutos aguardando resposta da API e pausas de 15 segundos estratégicas para contornar a restrição de máximo de requisições da API.
+
+## Índice
+
+- [Objetivo](#objetivo)
+- [Layout dos dados exportados](#layout-dos-dados-exportados)
+  - [Observações importantes sobre preenchimento](#observações-importantes-sobre-preenchimento)
+- [Endpoints de API utilizados](#endpoints-de-api-utilizados)
+  - [1. `incidentEvent/filter`](#1-incidenteventfilter)
+  - [2. `endpoint/search`](#2-endpointsearch)
+  - [3. `endpointAttributes/search`](#3-endpointattributessearch)
+  - [4. `organizationPublisherOperatingSystems/search`](#4-organizationpublisheroperatingsystemssearch)
+- [Geração dos dados de cache](#geração-dos-dados-de-cache)
+  - [Estrutura do cache](#estrutura-do-cache)
+  - [Quando o cache é usado](#quando-o-cache-é-usado)
+  - [Quando o cache é recriado](#quando-o-cache-é-recriado)
+  - [Como o cache é gerado](#como-o-cache-é-gerado)
+  - [Modo incremental do cache](#modo-incremental-do-cache)
+  - [Limitações do modo incremental](#limitações-do-modo-incremental)
+  - [Metadados gravados no cache](#metadados-gravados-no-cache)
+- [Lógica utilizada para a correlação](#lógica-utilizada-para-a-correlação)
+  - [1. Seleção dos eventos](#1-seleção-dos-eventos)
+  - [2. Resolução do endpoint](#2-resolução-do-endpoint)
+  - [3. Lookup de endpoint](#3-lookup-de-endpoint)
+  - [4. Lookup de atributos](#4-lookup-de-atributos)
+  - [5. Correlação de campos principais](#5-correlação-de-campos-principais)
+    - [`CVE Name`](#cve-name)
+    - [`Vendor` e `Product`](#vendor-e-product)
+    - [`Operating System`](#operating-system)
+    - [`Operating System Version`](#operating-system-version)
+    - [`Internal IP Address` e `External IP Address`](#internal-ip-address-e-external-ip-address)
+    - [`MAC Address`](#mac-address)
+    - [`Organizational Unit`](#organizational-unit)
+    - [`Patch ID`](#patch-id)
+    - [`Event ID`](#event-id)
+- [Parâmetros do script e como utilizá-los](#parâmetros-do-script-e-como-utilizá-los)
+  - [Variáveis de ambiente](#variáveis-de-ambiente)
+  - [Parâmetros do script](#parâmetros-do-script)
+  - [Exemplos de uso](#exemplos-de-uso)
+    - [1. Baixar ou atualizar somente o cache do inventário](#1-baixar-ou-atualizar-somente-o-cache-do-inventário)
+    - [2. Exportação usando cache existente no intervalo fechado de datas](#2-exportação-usando-cache-existente-no-intervalo-fechado-de-datas)
+- [Recomendações de execução](#recomendações-de-execução)
+  - [1. Fluxos suportados](#1-fluxos-suportados)
+  - [2. Preferir cache local para execuções recorrentes](#2-preferir-cache-local-para-execuções-recorrentes)
+  - [3. Recriar cache em mudanças relevantes do inventário](#3-recriar-cache-em-mudanças-relevantes-do-inventário)
+  - [4. O export exige intervalo fechado](#4-o-export-exige-intervalo-fechado)
+  - [5. Usar incremental para rotinas frequentes](#5-usar-incremental-para-rotinas-frequentes)
+  - [6. Exportação com cache não baixa inventário automaticamente](#6-exportação-com-cache-não-baixa-inventário-automaticamente)
+  - [7. Manter refresh completo periódico](#7-manter-refresh-completo-periódico)
+  - [8. O nome dos arquivos de saída é fixo](#8-o-nome-dos-arquivos-de-saída-é-fixo)
+  - [9. Usar partições para coletas grandes](#9-usar-partições-para-coletas-grandes)
+  - [10. Usar filtros temporais quando não precisar do histórico inteiro](#10-usar-filtros-temporais-quando-não-precisar-do-histórico-inteiro)
+- [Histórico de problemas e soluções aplicadas](#histórico-de-problemas-e-soluções-aplicadas)
+  - [1. Campos importantes vinham vazios na exportação inicial](#1-campos-importantes-vinham-vazios-na-exportação-inicial)
+  - [2. O endpoint do incidente nem sempre batia diretamente com o inventário](#2-o-endpoint-do-incidente-nem-sempre-batia-diretamente-com-o-inventário)
+  - [3. Versão do sistema operacional tinha cobertura limitada](#3-versão-do-sistema-operacional-tinha-cobertura-limitada)
+  - [4. O nome do sistema operacional nem sempre vinha legível no incidente](#4-o-nome-do-sistema-operacional-nem-sempre-vinha-legível-no-incidente)
+  - [5. `Patch ID` e `Event ID` não eram consistentes em todos os eventos](#5-patch-id-e-event-id-não-eram-consistentes-em-todos-os-eventos)
+  - [6. Coletas grandes de inventário sofriam com limite operacional da API](#6-coletas-grandes-de-inventário-sofriam-com-limite-operacional-da-api)
+  - [7. Atributos de endpoint eram o ponto mais sensível da coleta](#7-atributos-de-endpoint-eram-o-ponto-mais-sensível-da-coleta)
+  - [8. Alguns endpoints simplesmente não existiam no inventário atual](#8-alguns-endpoints-simplesmente-não-existiam-no-inventário-atual)
+  - [9. O código acumulou ramificações de tentativa durante a evolução](#9-o-código-acumulou-ramificações-de-tentativa-durante-a-evolução)
+- [Testes automatizados](#testes-automatizados)
+  - [O que os testes cobrem](#o-que-os-testes-cobrem)
+  - [Como executar](#como-executar)
+  - [Resultado validado mais recentemente](#resultado-validado-mais-recentemente)
+- [Resumo operacional](#resumo-operacional)
+- [Notas da Versão](#notas-da-versão)
+- [Isenção de Responsabilidade](#isenção-de-responsabilidade)
 
 ## Objetivo
 
@@ -58,6 +128,7 @@ Cada linha exportada representa um evento `DetectedVulnerability` já normalizad
 | `CVSS Vector` | Vetor CVSS v3 informado pela API. |
 | `CVE Publish Date` | Data de publicação da vulnerabilidade, convertida para `YYYY-MM-DD`. |
 | `Vendor Patch Link` | Link para patch na plataforma Vicarius, gerado a partir do `Patch ID` quando disponível. |
+| `KEV` | Códigos KEV separados por pipe caso existam. |
 | `Vulnerability Summary` | Resumo textual da vulnerabilidade. |
 | `Endpoint` | Nome do endpoint correlacionado. |
 | `Endpoint ID` | Identificador do endpoint. |
@@ -91,11 +162,14 @@ O script utiliza os endpoints abaixo da API externa da Vicarius.
 Usado para buscar os eventos de vulnerabilidade detectada.
 
 **Finalidade no script:**
+
 - exportação dos incidentes
+- obtenção dos identificadores e status KEV (`vulnerabilityCISARequiredAction`) nativamente sem necessidade de chamadas adicionais
 - leitura particionada por `analyticsEventCreatedAtNano`
 - refinamento automático de partições quando há risco de extrapolar o limite prático de paginação
 
 **Filtro principal usado:**
+
 - `incidentEventIncidentEventType=in=(DetectedVulnerability)`
 
 ### 2. `endpoint/search`
@@ -103,6 +177,7 @@ Usado para buscar os eventos de vulnerabilidade detectada.
 Usado para consultar o inventário de endpoints.
 
 **Finalidade no script:**
+
 - construir ou atualizar o cache local de endpoints
 - enriquecer endpoint, organização, sistema operacional e referências externas via cache previamente salvo
 
@@ -111,6 +186,7 @@ Usado para consultar o inventário de endpoints.
 Usado para obter atributos auxiliares dos endpoints.
 
 **Finalidade no script:**
+
 - construir ou atualizar o cache local dos atributos relevantes
 - enriquecer IP interno, IP externo, unidade organizacional, versão do sistema operacional e MAC via cache previamente salvo
 
@@ -119,6 +195,7 @@ Usado para obter atributos auxiliares dos endpoints.
 Usado para consultar o catálogo de sistemas operacionais por par `publisherId` + `operatingSystemId`.
 
 **Finalidade no script:**
+
 - preencher `Operating System` quando o cache do endpoint ou o evento não trazem um nome legível do SO
 - servir como fallback para correlação de sistema operacional
 
@@ -444,69 +521,87 @@ Esta seção consolida, de forma resumida, os principais problemas observados du
 ### 1. Campos importantes vinham vazios na exportação inicial
 
 **Problema observado:**
+
 - vários campos de enriquecimento não eram preenchidos corretamente, como IP, MAC, SO e OU
 
 **Causa identificada:**
+
 - o payload de `incidentEvent/filter` não traz sozinho todos os dados necessários
 
 **Solução aplicada:**
+
 - reforço da correlação com inventário e atributos de endpoint
 - adoção do cache local como base do enriquecimento de exportação
 
 ### 2. O endpoint do incidente nem sempre batia diretamente com o inventário
 
 **Problema observado:**
+
 - em alguns casos o `endpointId` do evento não bastava para resolver o endpoint enriquecido
 
 **Causa identificada:**
+
 - havia divergências entre o identificador presente no incidente e o snapshot do inventário
 
 **Solução aplicada:**
+
 - manutenção do lookup por `endpointId` e `endpointName`
 
 ### 3. Versão do sistema operacional tinha cobertura limitada
 
 **Problema observado:**
+
 - a versão do sistema operacional nem sempre vinha preenchida
 
 **Causa identificada:**
+
 - a API não fornecia esse dado de maneira consistente nos mesmos campos para todos os endpoints
 
 **Solução aplicada:**
+
 - uso apenas de fontes mais seguras para esse campo
 - aceitação explícita de que ele pode continuar vazio em parte dos registros
 
 ### 4. O nome do sistema operacional nem sempre vinha legível no incidente
 
 **Problema observado:**
+
 - o incidente nem sempre trazia um nome amigável do SO
 
 **Causa identificada:**
+
 - em vários casos só havia IDs técnicos
 
 **Solução aplicada:**
+
 - fallback via `organizationPublisherOperatingSystems/search`
 
 ### 5. `Patch ID` e `Event ID` não eram consistentes em todos os eventos
 
 **Problema observado:**
+
 - alguns eventos não traziam esses campos de forma estável
 
 **Causa identificada:**
+
 - inconsistência do payload entre eventos e tenants
 
 **Solução aplicada:**
+
 - fallbacks seguros para `Patch ID` e `Event ID`
 
 ### 6. Coletas grandes de inventário sofriam com limite operacional da API
 
 **Problema observado:**
+
 - coletas amplas podiam retornar resultados parciais ou sofrer `429`
 
 **Causa identificada:**
+
 - limitação prática de paginação e throttling da API
 
 **Solução aplicada:**
+
 - partições numéricas
 - validação de completude
 - refino recursivo das partições quando necessário
@@ -514,12 +609,15 @@ Esta seção consolida, de forma resumida, os principais problemas observados du
 ### 7. Atributos de endpoint eram o ponto mais sensível da coleta
 
 **Problema observado:**
+
 - `endpointAttributes/search` foi historicamente o ponto mais instável
 
 **Causa identificada:**
+
 - alto volume de dados e sensibilidade maior a throttling
 
 **Solução aplicada:**
+
 - partição por `endpointId`
 - refino automático das partições problemáticas
 - retenção em cache com metadados de completude
@@ -527,24 +625,30 @@ Esta seção consolida, de forma resumida, os principais problemas observados du
 ### 8. Alguns endpoints simplesmente não existiam no inventário atual
 
 **Problema observado:**
+
 - certos campos continuavam vazios mesmo após melhorar a correlação
 
 **Causa identificada:**
+
 - parte dos endpoints presentes em incidentes não aparecia no inventário disponível no momento da coleta
 
 **Solução aplicada:**
+
 - manutenção de fallbacks seguros
 - documentação explícita de que não há garantia de cobertura de 100%
 
 ### 9. O código acumulou ramificações de tentativa durante a evolução
 
 **Problema observado:**
+
 - a implementação ficou carregando caminhos intermediários que já não eram mais desejados
 
 **Causa identificada:**
+
 - o script evoluiu ao longo das investigações até estabilizar no fluxo útil
 
 **Solução aplicada na versão atual:**
+
 - simplificação da CLI para dois fluxos suportados
 - remoção de parâmetros e modos alternativos
 - refatoração do `main()` para melhorar legibilidade sem alterar comportamento
@@ -611,3 +715,15 @@ Em termos práticos, o script hoje segue esta estratégia:
 8. apresentar resumo de cobertura por coluna ao final
 
 Esse desenho prioriza robustez, repetibilidade e menor ambiguidade operacional, mantendo apenas o comportamento que permaneceu útil e validado no script.
+
+## Notas da Versão
+
+- **Inclusão da coluna KEV**: O script passou a extrair a indicação nativa de diretrizes KEV presentes no payload `incidentEvent/filter`.
+- **Formatação de Extração KEV**: A coluna `KEV` foi introduzida no CSV/JSONL logo após a coluna `Vulnerability Summary`, informando o status usando a convenção de código `[Vulnerability ID] CVE-XXXX-XXXX` (ex. `[444299] CVE-2025-15556`).
+- **Suporte a Múltiplos CVEs**: No caso da vulnerabilidade carregar mais de um CVE na nomenclatura (CVE em formato de lista textual), cada iteração de código é mapeada e unificada pelo delimitador `|`.
+
+## Isenção de Responsabilidade
+
+O código gerado e as lógicas de integração contidas neste script e suas eventuais extensões são fornecidos "no estado em que se encontram" (*as-is*). Não há garantias explícitas ou implícitas de adequação a ambientes produtivos, de disponibilidade livre de falhas ou aderência contínua à API no longo prazo. O uso desta solução é de total responsabilidade do operador.
+
+É expressamente recomendado que a estrutura lógica, parâmetros de tempo (`delay`/`sleep`) e a governança deste código sejam submetidos à análise prévia e validação técnica da **Vicarius** antes de sua inserção ou execução contínua em qualquer infraestrutura ou arquitetura de produção corporativa.
