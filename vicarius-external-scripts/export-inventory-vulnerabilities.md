@@ -1,9 +1,14 @@
 # Documentação do script `export-inventory-vulnerabilities.py`
 
 > ⚠️ ATENÇÃO
-> Durante a execução deste script, foram observadas lentidão nas respostas e interrupções associadas a limites de tempo e volume de chamadas. Embora esse comportamento tenha sido parcialmente mitigado com intervalos de espera entre as requisições, o uso recorrente do script ainda pode gerar alertas de abuso na plataforma.
+> Durante a execução deste script, foram observadas lentidão nas respostas e interrupções associadas a limites de tempo e volume de chamadas. Embora esse comportamento tenha sido mitigado com um **Rate Limiter Global (50 req/min)** e intervalos de espera estratégicos, o uso indevido ainda pode gerar bloqueios.
 >
-> No download do inventário, foram necessários aproximadamente `35 minutos de execução`, dos quais apenas `4 segundos corresponderam a processamento efetivo de CPU`. Em outras palavras, mais de 99% do tempo total foi consumido aguardando respostas da API, tráfego de rede, `sleeps` e mecanismos de controle de ritmo da execução. Comportamento semelhante foi observado na exportação dos eventos de vulnerabilidade: em uma `janela de 7 dias para 12.582 endpoints identificados`, a execução levou aproximadamente `4 minutos`, dos quais somente `12 segundos` corresponderam a processamento real.
+> **SEGURANÇA E LIMITES:**
+> O usuário **DEVE** utilizar um **TOKEN DE API PRÓPRIO** e individual. Não utilize tokens compartilhados, pois os limites de throughput (60 req/min nominais) são aplicados ao escopo do token/organização. O uso simultâneo do mesmo token em múltiplas instâncias causará erros 429 frequentes.
+
+No download do inventário, foram necessários aproximadamente `35 minutos de execução`, dos quais apenas `4 segundos corresponderam a processamento efetivo de CPU`. Em outras palavras, mais de 99% do tempo total foi consumido aguardando respostas da API, tráfego de rede, `sleeps` e mecanismos de controle de ritmo da execução (Rate Limiting). Comportamento semelhante foi observado na exportação dos eventos de vulnerabilidade: em uma `janela de 7 dias para 12.582 endpoints identificados`, a execução levou aproximadamente `4 minutos`, dos quais somente `12 segundos` corresponderam a processamento real.
+
+Recomenda-se validar sua utilização com a Vicarius antes de adotá-lo de forma contínua.
 >
 > Recomenda-se validar sua utilização com a Vicarius antes de adotá-lo de forma contínua.
 >
@@ -109,8 +114,6 @@ Os artefatos locais gerados por esse script foram adicionados ao `.gitignore` pa
 | `vicarius-external-scripts/cache/vicarius_inventory/endpoints.jsonl` | Snapshot local dos endpoints do inventário usado no enriquecimento. |
 | `vicarius-external-scripts/cache/vicarius_inventory/endpoint_attributes.jsonl` | Snapshot local dos atributos relevantes dos endpoints usado no enriquecimento. |
 | `vicarius-external-scripts/cache/vicarius_inventory/metadata.json` | Metadados do snapshot local, incluindo completude, partições e marcos de refresh. |
-
-Observação: o diretório `cache/` não havia sido listado antes porque a primeira versão da tabela enfatizava apenas os arquivos persistidos dentro dele. Como o fluxo também cria o diretório-base, ele agora está documentado e ignorado explicitamente.
 
 O comportamento atual do script é intencionalmente restrito para privilegiar previsibilidade operacional, menor ambiguidade de uso e menor acúmulo de caminhos alternativos de execução.
 
@@ -718,9 +721,19 @@ Esse desenho prioriza robustez, repetibilidade e menor ambiguidade operacional, 
 
 ## Notas da Versão
 
+- **v1.1.0** (Atual):
+    - Implementação de **Rate Limiter Global** limitado a 50 requisições por minuto (margem de segurança).
+    - Ajuste no tratamento de erro 429 para suportar o cabeçalho `X-Rate-Limit-Retry-After-Seconds`.
+    - Proteção explícita contra paginação profunda (`from > 10.000`).
+    - Adição de logs de progresso de cadência (`RateLimiter] ...`).
 - **Inclusão da coluna KEV**: O script passou a extrair a indicação nativa de diretrizes KEV presentes no payload `incidentEvent/filter`.
 - **Formatação de Extração KEV**: A coluna `KEV` foi introduzida no CSV/JSONL logo após a coluna `Vulnerability Summary`, informando o status usando a convenção de código `[Vulnerability ID] CVE-XXXX-XXXX` (ex. `[444299] CVE-2025-15556`).
 - **Suporte a Múltiplos CVEs**: No caso da vulnerabilidade carregar mais de um CVE na nomenclatura (CVE em formato de lista textual), cada iteração de código é mapeada e unificada pelo delimitador `|`.
+
+## Referências
+
+- [Vicarius API Documentation](https://customer-portal.vicarius.io/api-max-throughput) — Detalhes técnicos sobre limites de throughput e paginação.
+- [Conventional Commits](https://www.conventionalcommits.org/pt-br/) — Padrão utilizado no histórico de mudanças deste projeto.
 
 ## Isenção de Responsabilidade
 

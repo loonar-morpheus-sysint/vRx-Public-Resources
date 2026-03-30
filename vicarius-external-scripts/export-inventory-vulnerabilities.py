@@ -41,6 +41,12 @@ PARTITION_COUNT_TOLERANCE = 1
 MAX_PARTITION_REFINEMENT_DEPTH = 6
 MAX_INITIAL_INCIDENT_PARTITIONS = 128
 
+# Vicarius Specific Throughput Guidelines
+# Ref: https://customer-portal.vicarius.io/api-max-throughput
+VICARIUS_RATE_LIMIT_HEADER = "X-Rate-Limit-Retry-After-Seconds"
+MAX_REQUESTS_PER_MINUTE = 50  # Margem de segurança (limite nominal: 60)
+MAX_FROM_OFFSET = 10000
+
 # Delays e cooldowns
 ENDPOINT_PAGE_DELAY = 0.05
 ATTRIBUTE_PAGE_DELAY = 0.35
@@ -116,6 +122,44 @@ INCIDENT_PARTITION_FIELD = "analyticsEventCreatedAtNano"
 ENDPOINT_PARTITION_FIELD = "endpointCreatedAt"
 ATTRIBUTE_PARTITION_FIELD = "endpointId"
 REQUEST_PACING_STATE = {}
+
+
+class GlobalRateLimiter:
+    """
+    Controlador global de cadência (Rate Limiting).
+    Garante que o script não exceda MAX_REQUESTS_PER_MINUTE requisições.
+    """
+
+    def __init__(self, max_requests=MAX_REQUESTS_PER_MINUTE):
+        self.max_requests = max_requests
+        self.interval = 60.0  # Window de 60 segundos
+        self.request_timestamps = []
+
+    def wait_for_slot(self):
+        """Aguardar um slot disponível no limite global."""
+        now = time.monotonic()
+
+        # Limpar timestamps fora da janela de 60s
+        self.request_timestamps = [
+            ts for ts in self.request_timestamps if ts > now - self.interval
+        ]
+
+        if len(self.request_timestamps) >= self.max_requests:
+            # Pegar o timestamp mais antigo na janela e calcular quanto esperar
+            oldest_ts = self.request_timestamps[0]
+            wait_time = (oldest_ts + self.interval) - now
+            if wait_time > 0:
+                print(
+                    f"  [RateLimiter] Limite de {self.max_requests} req/min atingido. Aguardando {wait_time:.1f}s..."
+                )
+                time.sleep(wait_time)
+                # Recalcular após o sleep
+                return self.wait_for_slot()
+
+        self.request_timestamps.append(time.monotonic())
+
+
+RATE_LIMITER = GlobalRateLimiter()
 
 
 def configure_console_output():
@@ -249,8 +293,22 @@ def normalize_ip(value):
 
 
 def request_json(session, url, headers, params=None, timeout=REQUEST_TIMEOUT):
+    # Validar limite de paginação (From <= 10.000)
+    if params:
+        offset = params.get("from", 0)
+        if isinstance(offset, int) and offset > MAX_FROM_OFFSET:
+            print(
+                f"  [ERRO] O Vicarius vRx não suporta paginação profunda (From={offset} > {MAX_FROM_OFFSET})."
+            )
+            print("  Use filtros temporais ou partições menores para evitar este erro.")
+            return {}, 400
+
     for attempt in range(1, MAX_RETRIES + 1):
         try:
+            # 1. Aplicar Rate Limiter Global (Margem de 50 req/min)
+            RATE_LIMITER.wait_for_slot()
+
+            # 2. Aplicar Pacing por Endpoint (específico)
             pacing_key, min_interval = get_request_pacing_rule(url)
             wait_for_request_slot(pacing_key, min_interval)
 
@@ -268,22 +326,23 @@ def request_json(session, url, headers, params=None, timeout=REQUEST_TIMEOUT):
                 return response.json(), response.status_code
 
             if response.status_code == 429:
-                retry_after = response.headers.get("Retry-After")
-                wait_seconds = 5 * attempt
+                # Priorizar cabeçalho específico da Vicarius
+                retry_after = response.headers.get(VICARIUS_RATE_LIMIT_HEADER)
+                wait_seconds = 10 * attempt  # Padrão Vicarius sugerido é 10s no exemplo
                 if retry_after and retry_after.isdigit():
-                    wait_seconds = max(wait_seconds, int(retry_after))
+                    wait_seconds = int(retry_after)
 
                 register_request_backoff(pacing_key, wait_seconds)
 
                 if attempt < MAX_RETRIES:
                     print(
-                        f"Limite de taxa da API em {url}. Aguardando {wait_seconds}s antes da tentativa {attempt + 1}/{MAX_RETRIES}..."
+                        f"  [429] Limite de taxa atingido em {url}. Aguardando {wait_seconds}s (Tentativa {attempt}/{MAX_RETRIES})..."
                     )
                     time.sleep(wait_seconds)
                     continue
 
                 print(
-                    f"Limite de taxa da API em {url}. Requisição abortada após {MAX_RETRIES} tentativa(s)."
+                    f"  [Erro] Abortando requisição após {MAX_RETRIES} tentativas em {url}."
                 )
                 break
 
@@ -299,17 +358,17 @@ def request_json(session, url, headers, params=None, timeout=REQUEST_TIMEOUT):
 
                 if result_code == "PARAMETER_VALUE_EXCEEDED_LIMIT":
                     print(
-                        f"Limite de paginação da API detectado em {url}; a partição será refinada."
+                        f"  [Dica] Limite de paginação detectado em {url}; a partição será refinada."
                     )
                     return response_payload, response.status_code
 
                 print(
-                    f"Erro API (400) em {url}: {result_code or result_message or 'bad request'}"
+                    f"  [Erro 400] {url}: {result_code or result_message or 'bad request'}"
                 )
 
-            print(f"Erro API ({response.status_code}) em {url}")
+            print(f"  [Erro {response.status_code}] {url}")
         except Exception as exc:
-            print(f"Erro request em {url}: {exc}")
+            print(f"  [Erro Request] {url}: {exc}")
 
         if attempt < MAX_RETRIES:
             time.sleep(2)
