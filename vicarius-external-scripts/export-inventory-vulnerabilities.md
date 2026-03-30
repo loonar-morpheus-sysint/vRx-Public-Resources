@@ -5,14 +5,11 @@
 >
 > **SEGURANÇA E LIMITES:**
 > O usuário **DEVE** utilizar um **TOKEN DE API PRÓPRIO** e individual. Não utilize tokens compartilhados, pois os limites de throughput (60 req/min nominais) são aplicados ao escopo do token/organização. O uso simultâneo do mesmo token em múltiplas instâncias causará erros 429 frequentes.
-
-No download do inventário, foram necessários aproximadamente `35 minutos de execução`, dos quais apenas `4 segundos corresponderam a processamento efetivo de CPU`. Em outras palavras, mais de 99% do tempo total foi consumido aguardando respostas da API, tráfego de rede, `sleeps` e mecanismos de controle de ritmo da execução (Rate Limiting). Comportamento semelhante foi observado na exportação dos eventos de vulnerabilidade: em uma `janela de 7 dias para 12.582 endpoints identificados`, a execução levou aproximadamente `4 minutos`, dos quais somente `12 segundos` corresponderam a processamento real.
-
-Recomenda-se validar sua utilização com a Vicarius antes de adotá-lo de forma contínua.
+>
+> No download do inventário, foram necessários aproximadamente `35 minutos de execução`, dos quais apenas `4 segundos corresponderam a processamento efetivo de CPU`. Em outras palavras, mais de 99% do tempo total foi consumido aguardando respostas da API, tráfego de rede, `sleeps` e mecanismos de controle de ritmo da execução (Rate Limiting). Comportamento semelhante foi observado na exportação dos eventos de vulnerabilidade: em uma `janela de 7 dias para 12.582 endpoints identificados`, a execução levou aproximadamente `4 minutos`, dos quais somente `12 segundos` corresponderam a processamento real.
 >
 > Recomenda-se validar sua utilização com a Vicarius antes de adotá-lo de forma contínua.
 >
-> Este script é cedido no estado em que se encontra, sem garantias adicionais de funcionamento, aderência operacional ou adequação a um propósito específico. A decisão de executá-lo, bem como os riscos, impactos e validações decorrentes de seu uso, é de responsabilidade exclusiva do interessado.
 >
 > **Adicionada coluna com os códigos KEV caso existam**
 > A adição dessa coluna aumentou significativamente o tempo de execução. O tempo para conclusão da mesma janela temporal levou aproximadamente 20 minutos com tempo efetivo de uso de CPU de 01 minuto, ou seja, 19 minutos aguardando resposta da API e pausas de 15 segundos estratégicas para contornar a restrição de máximo de requisições da API.
