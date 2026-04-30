@@ -222,3 +222,6 @@ cache/
 /vicarius-external-scripts/vicarius_vulnerabilities.csv
 /vicarius-external-scripts/cache/
 /vicarius-external-scripts/cache/vicarius_inventory/
+# Added by ggshield
+.cache_ggshield
+vicarius-external-scripts/export_metabase/pivot_assets.xlsx
