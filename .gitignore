@@ -224,4 +224,4 @@ cache/
 /vicarius-external-scripts/cache/vicarius_inventory/
 # Added by ggshield
 .cache_ggshield
-vicarius-external-scripts/export_metabase/pivot_assets.xlsx
+vicarius-external-scripts/export_metabase/patch-tuesday_*.xlsx
